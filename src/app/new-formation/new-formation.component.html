@@ -1,0 +1,22 @@
+<div class="col-sm-8 col-sm-offset-2">
+  <form [formGroup]="formationForm" (ngSubmit)="onSubmitForm()">
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" class="form-control" formControlName="nom">
+    </div>
+    <div class="form-group">
+      <label for="domaine">Domaine</label>
+      <input type="text" id="domaine" class="form-control" formControlName="domaine">
+    </div>
+    <div class="form-group">
+      <label for="objectif">Objectif</label>
+      <input type="text" id="objectif" class="form-control" formControlName="objectif">
+    </div>
+    <div class="form-group">
+      <label for="budget">Budget</label>
+      <input type="number" id="budget" class="form-control" formControlName="budget">
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="formationForm.invalid">Soumettre</button>
+    <button type="reset" class="btn btn-primary">Effacer</button>
+  </form>
+</div>
