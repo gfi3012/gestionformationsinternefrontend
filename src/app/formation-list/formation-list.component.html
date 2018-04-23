@@ -1,8 +1,9 @@
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let formation of formations">
-    <h3>{{ formation.nom }}</h3>
+    <h4>Formation : {{ formation.nom }}</h4>
     <p>Domaine : {{ formation.domaine }}</p>
     <p>Objectif : {{ formation.objectif }}</p>
     <p>Budget : {{ formation.budget }}</p>
+    <a [routerLink]="formation.id">Détails</a>
   </li>
 </ul>

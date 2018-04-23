@@ -11,6 +11,14 @@ export class FormationService {
   constructor(private http: Http) {
   }
 
+  getFormationById(id: number) {
+    const formation = this.formations.find(
+      (s) => {
+        return s.id === id;
+      }
+    );
+    return formation;
+  }
 
   listerFormations() {
     return this.http.get('http://localhost:8080/formations')
@@ -18,7 +26,8 @@ export class FormationService {
   }
 
   creerFormation(formation: Formation) {
-
+    return this.http.post('http://localhost:8080/formations', formation)
+      .map(response => response);
   }
 
   modifierFormation(formation: Formation) {
