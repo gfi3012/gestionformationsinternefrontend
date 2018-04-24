@@ -1,19 +1,17 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {FormationService} from '../services/formation.service';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
-import {Formation} from '../models/Formation.model';
+import {Formation} from '../../models/Formation.model';
+import {FormationService} from '../../services/formation.service';
 
 @Component({
-  selector: 'app-new-formation',
-  templateUrl: './new-formation.component.html',
-  styleUrls: ['./new-formation.component.css']
+  selector: 'app-formation-form',
+  templateUrl: './formation-form.component.html',
+  styleUrls: ['./formation-form.component.css']
 })
-export class NewFormationComponent implements OnInit, OnDestroy {
+export class FormationFormComponent implements OnInit {
 
   formationForm: FormGroup;
-  formationSubscription: Subscription;
   messageSuccess = false;
 
   constructor(private formBuilder: FormBuilder, private formationService: FormationService, private router: Router) {
@@ -41,10 +39,11 @@ export class NewFormationComponent implements OnInit, OnDestroy {
       formValue['objectif'],
       formValue['budget']
     );
-    this.formationSubscription = this.formationService.creerFormation(newFormation)
+    this.formationService.creerFormation(newFormation)
       .subscribe(data => {
           console.log(data);
           this.messageSuccess = true;
+          this.formationService.listerFormations();
         },
         error => {
           console.log('Erreur ! : ' + error);
@@ -55,7 +54,4 @@ export class NewFormationComponent implements OnInit, OnDestroy {
     this.messageSuccess = false;
   }
 
-  ngOnDestroy() {
-    this.formationSubscription.unsubscribe();
-  }
 }

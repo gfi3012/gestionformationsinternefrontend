@@ -16,10 +16,12 @@
       <label for="budget">Budget</label>
       <input type="number" id="budget" class="form-control" formControlName="budget">
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="formationForm.invalid"><span
+    <button type="submit" class="btn btn-default" [disabled]="formationForm.invalid"><span
       class="glyphicon glyphicon-ok-sign"></span> Soumettre
     </button>
-    <button type="reset" class="btn btn-primary" (click)="onResetAll()">Effacer</button>
+    <button type="reset" class="btn btn-default" (click)="onResetAll()"><span class="glyphicon glyphicon-repeat"></span>
+      Effacer
+    </button>
   </form>
   <br>
   <div *ngIf="messageSuccess === true" class="alert alert-success">

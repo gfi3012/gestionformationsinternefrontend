@@ -4,6 +4,6 @@
     <p>Domaine : {{ formation.domaine }}</p>
     <p>Objectif : {{ formation.objectif }}</p>
     <p>Budget : {{ formation.budget }}</p>
-    <a [routerLink]="formation.id">Détails</a>
+    <a class="btn btn-default" (click)="onViewFormation(formation.id)">Détails</a>
   </li>
 </ul>

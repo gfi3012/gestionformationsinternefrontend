@@ -2,11 +2,14 @@ import {Injectable} from '@angular/core';
 import {Formation} from '../models/Formation.model';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class FormationService {
 
-  formations: Formation[];
+  formations: Formation[] = [];
+  formationSubject = new Subject<Formation[]>();
 
   constructor(private http: Http) {
   }
@@ -21,8 +24,9 @@ export class FormationService {
   }
 
   listerFormations() {
-    return this.http.get('http://localhost:8080/formations')
-      .map(response => response.json());
+    this.http.get('http://localhost:8080/formations')
+      .toPromise().then(response => response.json()).then(response => this.formations = response);
+    this.emitFormations();
   }
 
   creerFormation(formation: Formation) {
@@ -35,4 +39,7 @@ export class FormationService {
   }
 
 
+  emitFormations() {
+    this.formationSubject.next(this.formations);
+  }
 }

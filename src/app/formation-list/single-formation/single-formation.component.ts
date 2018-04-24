@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {FormationService} from '../services/formation.service';
-import {Formation} from '../models/Formation.model';
+import {Formation} from '../../models/Formation.model';
+import {FormationService} from '../../services/formation.service';
 
 @Component({
   selector: 'app-single-formation',
@@ -16,6 +16,7 @@ export class SingleFormationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.formation = new Formation(null, '', '', '', null);
     const id = this.route.snapshot.params['id'];
     this.formation = this.formationService.getFormationById(+id);
   }
