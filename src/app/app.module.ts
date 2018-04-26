@@ -8,11 +8,13 @@ import {HttpModule} from '@angular/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FormationService} from './services/formation.service';
 import {FourOhFourComponent} from './four-oh-four/four-oh-four.component';
-import { AboutComponent } from './about/about.component';
-import { HeaderComponent } from './header/header.component';
+import {AboutComponent} from './about/about.component';
+import {HomeComponent} from './home/home.component';
+import {HeaderComponent} from './header/header.component';
 import {FormationListComponent} from './formation-list/formation-list.component';
 import {SingleFormationComponent} from './formation-list/single-formation/single-formation.component';
 import {FormationFormComponent} from './formation-list/formation-form/formation-form.component';
+
 
 const appRoutes: Routes = [
   {path: 'formations', component: FormationListComponent},
@@ -20,6 +22,7 @@ const appRoutes: Routes = [
   {path: 'formations/new', component: FormationFormComponent},
   {path: '', component: FormationListComponent},
   {path: 'about', component: AboutComponent},
+  {path: 'home', component: HomeComponent},
   {path: 'not-found', component: FourOhFourComponent},
   {path: '**', redirectTo: 'not-found'}
 ];
@@ -32,7 +35,8 @@ const appRoutes: Routes = [
     FourOhFourComponent,
     SingleFormationComponent,
     AboutComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
