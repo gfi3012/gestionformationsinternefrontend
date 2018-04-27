@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Formation} from '../../models/Formation.model';
 import {FormationService} from '../../services/formation.service';
 
@@ -12,7 +12,7 @@ export class SingleFormationComponent implements OnInit {
 
   formation: Formation;
 
-  constructor(private formationService: FormationService, private route: ActivatedRoute) {
+  constructor(private formationService: FormationService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -21,4 +21,7 @@ export class SingleFormationComponent implements OnInit {
     this.formation = this.formationService.getFormationById(+id);
   }
 
+  onEditFormation(id: Number) {
+    this.router.navigate(['/formations', 'edit', id]);
+  }
 }

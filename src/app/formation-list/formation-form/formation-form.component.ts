@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Formation} from '../../models/Formation.model';
 import {FormationService} from '../../services/formation.service';
 
@@ -13,8 +13,9 @@ export class FormationFormComponent implements OnInit {
 
   formationForm: FormGroup;
   messageSuccess = false;
+  formation: Formation;
 
-  constructor(private formBuilder: FormBuilder, private formationService: FormationService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private formationService: FormationService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -22,32 +23,57 @@ export class FormationFormComponent implements OnInit {
   }
 
   initForm() {
+    this.formation = new Formation(null, '', '', '', null);
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.formation = this.formationService.getFormationById(+id);
+    }
     this.formationForm = this.formBuilder.group({
-      nom: ['', Validators.required],
-      domaine: ['', Validators.required],
-      objectif: ['', Validators.required],
-      budget: ['', Validators.required]
+      nom: [this.formation.nom, Validators.required],
+      domaine: [this.formation.domaine, Validators.required],
+      objectif: [this.formation.objectif, Validators.required],
+      budget: [this.formation.budget, Validators.required]
     });
   }
 
   onSubmitForm() {
-    const formValue = this.formationForm.value;
-    const newFormation = new Formation(
-      null,
-      formValue['nom'],
-      formValue['domaine'],
-      formValue['objectif'],
-      formValue['budget']
-    );
-    this.formationService.creerFormation(newFormation)
-      .subscribe(data => {
-          console.log(data);
-          this.messageSuccess = true;
-          this.formationService.listerFormations();
-        },
-        error => {
-          console.log('Erreur ! : ' + error);
-        });
+    if (this.formation.id === null) {
+      const formValue = this.formationForm.value;
+      this.formation = new Formation(
+        null,
+        formValue['nom'],
+        formValue['domaine'],
+        formValue['objectif'],
+        formValue['budget']
+      );
+      this.formationService.creerFormation(this.formation)
+        .subscribe(data => {
+            console.log(data);
+            this.messageSuccess = true;
+            this.formationService.listerFormations();
+          },
+          error => {
+            console.log('Erreur ! : ' + error);
+          });
+    } else if (this.formation.id !== null) {
+      const formValue = this.formationForm.value;
+      this.formation = new Formation(
+        this.formation.id,
+        formValue['nom'],
+        formValue['domaine'],
+        formValue['objectif'],
+        formValue['budget']
+      );
+      this.formationService.modifierFormation(this.formation)
+        .subscribe(data => {
+            console.log(data);
+            this.messageSuccess = true;
+            this.formationService.listerFormations();
+          },
+          error => {
+            console.log('Erreur ! : ' + error);
+          });
+    }
   }
 
   onResetAll() {

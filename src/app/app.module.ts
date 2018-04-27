@@ -20,6 +20,7 @@ const appRoutes: Routes = [
   {path: 'formations', component: FormationListComponent},
   {path: 'formations/view/:id', component: SingleFormationComponent},
   {path: 'formations/new', component: FormationFormComponent},
+  {path: 'formations/edit/:id', component: FormationFormComponent},
   {path: '', component: FormationListComponent},
   {path: 'about', component: AboutComponent},
   {path: 'home', component: HomeComponent},

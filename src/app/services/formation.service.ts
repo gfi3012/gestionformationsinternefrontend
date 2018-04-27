@@ -35,7 +35,8 @@ export class FormationService {
   }
 
   modifierFormation(formation: Formation) {
-
+    return this.http.put('http://localhost:8080/formations/' + formation.id, formation)
+      .map(response => response);
   }
 
 
