@@ -12,8 +12,10 @@ import {Router} from '@angular/router';
 })
 export class FormationListComponent implements OnInit, OnDestroy {
 
-  formations: Formation[];
+  formations: Formation[] = [];
+  filtredFormations: Formation[];
   formationSubscription: Subscription;
+  private _listFormationFilter: string;
 
   constructor(private formationService: FormationService, private router: Router) {
   }
@@ -26,6 +28,7 @@ export class FormationListComponent implements OnInit, OnDestroy {
     );
     this.formationService.listerFormations();
     this.formationService.emitFormations();
+    this.filtredFormations = this.formations;
   }
 
   ngOnDestroy() {
@@ -34,5 +37,19 @@ export class FormationListComponent implements OnInit, OnDestroy {
 
   onViewFormation(id: number) {
     this.router.navigate(['/formations', 'view', id]);
+  }
+
+  performFilter(filter: string): Formation[] {
+    filter = filter.toLowerCase();
+    return this.formations.filter((formation: Formation) => formation.nom.toLocaleLowerCase().indexOf(filter) !== -1);
+  }
+
+  get listFormationFilter(): string {
+    return this._listFormationFilter;
+  }
+
+  set listFormationFilter(value: string) {
+    this._listFormationFilter = value;
+    this.filtredFormations = this.listFormationFilter ? this.performFilter(this.listFormationFilter) : this.formations;
   }
 }

@@ -1,7 +1,7 @@
-<div class="col-sm-8 col-sm-offset-2">
+<div class="col-lg-offset-1 col-lg-8">
   <form [formGroup]="formationForm" (ngSubmit)="onSubmitForm()">
     <div class="form-group">
-      <label for="nom">Nom</label>
+      <label for="nom">Nom <span class="obligatoire">*</span></label>
       <input type="text" id="nom" class="form-control" formControlName="nom">
     </div>
     <div class="form-group">
@@ -9,7 +9,7 @@
       <textarea id="domaine" class="form-control" formControlName="domaine"></textarea>
     </div>
     <div class="form-group">
-      <label for="objectif">Objectif</label>
+      <label for="objectif">Objectif <span class="obligatoire">*</span></label>
       <textarea id="objectif" class="form-control" formControlName="objectif" rows="4"></textarea>
     </div>
     <div class="form-group">
@@ -17,7 +17,7 @@
       <input type="number" id="budget" class="form-control" formControlName="budget">
     </div>
     <button type="submit" class="btn btn-default" [disabled]="formationForm.invalid"><span
-      class="glyphicon glyphicon-ok-sign"></span> Soumettre
+      class="glyphicon glyphicon-ok"></span> Soumettre
     </button>
     <button type="reset" class="btn btn-default" (click)="onResetAll()"><span class="glyphicon glyphicon-repeat"></span>
       Effacer
@@ -25,6 +25,6 @@
   </form>
   <br>
   <div *ngIf="messageSuccess === true" class="alert alert-success">
-    <strong>Enregistrement effectué avec succès.</strong>
+    <strong>Données sauvegardées avec succès.</strong>
   </div>
 </div>

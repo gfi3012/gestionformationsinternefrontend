@@ -30,9 +30,9 @@ export class FormationFormComponent implements OnInit {
     }
     this.formationForm = this.formBuilder.group({
       nom: [this.formation.nom, Validators.required],
-      domaine: [this.formation.domaine, Validators.required],
+      domaine: this.formation.domaine,
       objectif: [this.formation.objectif, Validators.required],
-      budget: [this.formation.budget, Validators.required]
+      budget: this.formation.budget
     });
   }
 

@@ -1,7 +1,21 @@
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let formation of formations">
-    <h4 class="list-group-item-heading">Formation : {{ formation.nom }}</h4>
-    <p>Domaine : {{ formation.domaine }}</p>
-    <a class="btn btn-default" (click)="onViewFormation(formation.id)">Détails</a>
-  </li>
-</ul>
+<div class="col-lg-5">
+  <label for="nomFormation">Filtrer avec nom de la formation</label>
+  <input type="text" id="nomFormation" class="form-control" [(ngModel)]="listFormationFilter">
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Domaine</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let formation of filtredFormations;  let i=index">
+    <td *ngIf="i<8">{{ formation.nom }}</td>
+    <td *ngIf="i<8">{{ formation.domaine }}</td>
+    <td *ngIf="i<8"><a class="btn btn-default" (click)="onViewFormation(formation.id)" title="Détails"><span
+      class="glyphicon glyphicon-info-sign"></span></a></td>
+  </tr>
+  </tbody>
+</table>

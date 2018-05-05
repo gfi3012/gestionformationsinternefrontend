@@ -5,7 +5,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {RouterModule, Routes} from '@angular/router';
 import {HttpModule} from '@angular/http';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FormationService} from './services/formation.service';
 import {FourOhFourComponent} from './four-oh-four/four-oh-four.component';
 import {AboutComponent} from './about/about.component';
@@ -14,6 +14,7 @@ import {HeaderComponent} from './header/header.component';
 import {FormationListComponent} from './formation-list/formation-list.component';
 import {SingleFormationComponent} from './formation-list/single-formation/single-formation.component';
 import {FormationFormComponent} from './formation-list/formation-form/formation-form.component';
+import {FooterComponent} from './footer/footer.component';
 
 
 const appRoutes: Routes = [
@@ -21,7 +22,7 @@ const appRoutes: Routes = [
   {path: 'formations/view/:id', component: SingleFormationComponent},
   {path: 'formations/new', component: FormationFormComponent},
   {path: 'formations/edit/:id', component: FormationFormComponent},
-  {path: '', component: FormationListComponent},
+  {path: '', component: HomeComponent},
   {path: 'about', component: AboutComponent},
   {path: 'home', component: HomeComponent},
   {path: 'not-found', component: FourOhFourComponent},
@@ -37,11 +38,13 @@ const appRoutes: Routes = [
     SingleFormationComponent,
     AboutComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
