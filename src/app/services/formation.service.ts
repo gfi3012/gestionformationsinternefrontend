@@ -1,46 +1,58 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {Formation} from '../models/Formation.model';
-import {Http} from '@angular/http';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
-import {Subject} from 'rxjs/Subject';
+
 
 @Injectable()
 export class FormationService {
 
-  formations: Formation[] = [];
-  formationSubject = new Subject<Formation[]>();
+  webApiUrl = 'http://localhost:8080/formations';
 
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
-  getFormationById(id: number) {
-    const formation = this.formations.find(
-      (s) => {
-        return s.id === id;
-      }
-    );
-    return formation;
+  chercherTop5Formations() {
+    return this.httpClient.get<Formation[]>(this.webApiUrl);
   }
 
-  listerFormations() {
-    this.http.get('http://localhost:8080/formations')
-      .toPromise().then(response => response.json()).then(response => this.formations = response);
-    this.emitFormations();
+  chercherFormationsParNom(nomFormation: string) {
+    return this.httpClient.get<Formation[]>(this.webApiUrl + '/' + nomFormation);
+  }
+
+  chercherFormationParId(idFormation: number) {
+    return this.httpClient.get<Formation>(this.webApiUrl + '/' + idFormation);
   }
 
   creerFormation(formation: Formation) {
-    return this.http.post('http://localhost:8080/formations', formation)
-      .map(response => response);
+    this.httpClient.post(this.webApiUrl, formation).subscribe(
+      () => {
+        console.log('Enregistrement terminé !');
+      },
+      (error) => {
+        console.log('Erreur ! : ' + error);
+      }
+    );
   }
 
   modifierFormation(formation: Formation) {
-    return this.http.put('http://localhost:8080/formations/' + formation.id, formation)
-      .map(response => response);
+    this.httpClient.put(this.webApiUrl + '/' + formation.id, formation).subscribe(
+      () => {
+        console.log('Enregistrement terminé !');
+      },
+      (error) => {
+        console.log('Erreur ! : ' + error);
+      }
+    );
   }
 
-
-  emitFormations() {
-    this.formationSubject.next(this.formations);
+  supprimerFormation(idFormation: number) {
+    this.httpClient.delete(this.webApiUrl + '/' + idFormation).subscribe(
+      () => {
+        console.log('Enregistrement terminé !');
+      },
+      (error) => {
+        console.log('Erreur ! : ' + error);
+      }
+    );
   }
 }

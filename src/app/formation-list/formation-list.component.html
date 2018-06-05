@@ -1,21 +1,85 @@
-<div class="col-lg-5">
-  <label for="nomFormation">Filtrer avec nom de la formation</label>
-  <input type="text" id="nomFormation" class="form-control" [(ngModel)]="listFormationFilter">
-</div>
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>Nom</th>
-    <th>Domaine</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let formation of filtredFormations;  let i=index">
-    <td *ngIf="i<8">{{ formation.nom }}</td>
-    <td *ngIf="i<8">{{ formation.domaine }}</td>
-    <td *ngIf="i<8"><a class="btn btn-default" (click)="onViewFormation(formation.id)" title="Détails"><span
-      class="glyphicon glyphicon-info-sign"></span></a></td>
-  </tr>
-  </tbody>
-</table>
+<p-growl [(value)]="msgs"></p-growl>
+<p-table [value]="formations">
+  <!--<ng-template pTemplate="caption">-->
+    <!--<div style="text-align: right">-->
+      <!--<input pInputText type="text" size="60" placeholder="Filter par nom de formation" style="width:auto">-->
+      <!--<i class="fa fa-search" style="margin:5px"></i>-->
+    <!--</div>-->
+  <!--</ng-template>-->
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nom</th>
+      <th>Domaine</th>
+      <th>Objectif(s)</th>
+      <th width="10%">Budget</th>
+      <th width="6%">Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-formation>
+    <tr>
+      <td>{{formation.nom}}</td>
+      <td>{{formation.domaine}}</td>
+      <td>{{formation.objectif}}</td>
+      <td style="text-align:right">{{formation.budget}}</td>
+      <td style="text-align: center">
+        <button type="button" pButton icon="fa-edit" class="ui-button-secondary"
+                (click)="onShowFormDialog(formation.id)"></button>
+        <button type="button" pButton icon="fa-trash" class="ui-button-secondary"
+                (click)="onShowDeleteDialog(formation.id)"></button>
+        <button type="button" pButton icon="fa-info-circle" class="ui-button-secondary"
+                (click)="onViewFormation(formation.id)" title="Afficher les sessions de formation"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="5">
+        Aucun enregistrement trouvé
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div style="text-align:left">
+      <button pButton type="button" icon="fa-plus" (click)="onShowFormDialog(0)" label="Ajouter une formation"
+              class="ui-button-secondary"></button>
+    </div>
+  </ng-template>
+</p-table>
+<p-dialog header="Détails formation" [(visible)]="displayFormDialog" [modal]="true" [responsive]="true" [width]="750">
+  <form [formGroup]="formationForm" (ngSubmit)="onSubmitForm()">
+    <div class="form-group">
+      <label for="nom">Nom <span class="obligatoire">*</span></label>
+      <input pInputText type="text" id="nom" class="form-control" formControlName="nom">
+    </div>
+    <div class="form-group">
+      <label for="domaine">Domaine</label>
+      <textarea id="domaine" class="form-control" formControlName="domaine"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="objectif">Objectif(s) <span class="obligatoire">*</span></label>
+      <textarea id="objectif" class="form-control" formControlName="objectif" rows="4"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="budget">Budget</label>
+      <div class="ui-inputgroup">
+        <p-spinner id="budget" formControlName="budget" [min]="0" size="90"></p-spinner>
+        <span class="ui-inputgroup-addon">DH</span>
+      </div>
+    </div>
+    <div style="text-align:right">
+      <button pButton type="submit" icon="fa-check" label="Soumettre" class="ui-button-secondary"
+              [disabled]="formationForm.invalid">
+      </button>
+      <button pButton type="reset" icon="fa-refresh" label="Effacer" class="ui-button-secondary">
+      </button>
+    </div>
+  </form>
+</p-dialog>
+<p-confirmDialog #cd>
+  <p-footer>
+    <button type="button" pButton icon="fa-close" label="Non" (click)="cd.reject()"
+            class="ui-button-secondary"></button>
+    <button type="button" pButton icon="fa-check" label="Oui" (click)="cd.accept()"
+            class="ui-button-danger"></button>
+  </p-footer>
+</p-confirmDialog>

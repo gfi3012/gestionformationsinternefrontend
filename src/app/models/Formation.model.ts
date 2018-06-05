@@ -1,8 +1,22 @@
+import {SessionFormation} from './SessionFormation.model';
+
 export class Formation {
-  constructor(public id: number,
-              public nom: string,
-              public domaine: string,
-              public objectif: string,
-              public budget: number) {
+  id: number;
+  nom: string;
+  domaine: string;
+  objectif: string;
+  budget: number;
+  sessionsFormation: SessionFormation[];
+
+  constructor(id: number,
+              nom: string,
+              domaine: string,
+              objectif: string,
+              budget: number) {
+    this.id = id;
+    this.nom = nom;
+    this.domaine = domaine;
+    this.objectif = objectif;
+    this.budget = budget;
   }
 }

@@ -1,0 +1,85 @@
+<p-growl [(value)]="msgs"></p-growl>
+<p-table [value]="sessionsFormation">
+  <ng-template pTemplate="caption">
+    {{ formation.nom }}
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th width="13%">Date de début</th>
+      <th width="13%">Date de fin</th>
+      <th width="8%">Nombre de places</th>
+      <th>Lieu</th>
+      <th width="6%">Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-sessionFormation>
+    <tr>
+      <td style="text-align:right">{{sessionFormation.dateDebut}}</td>
+      <td style="text-align:right">{{sessionFormation.dateFin}}</td>
+      <td style="text-align:right">{{sessionFormation.nbrPlaces}}</td>
+      <td>{{sessionFormation.lieu}}</td>
+      <td style="text-align: center">
+        <button type="button" pButton icon="fa-edit" class="ui-button-secondary"
+                (click)="onShowFormDialog(sessionFormation.id)"></button>
+        <button type="button" pButton icon="fa-trash" class="ui-button-secondary"
+                (click)="onShowDeleteDialog(sessionFormation.id)"></button>
+        <button type="button" pButton icon="fa-info-circle" class="ui-button-secondary"
+                (click)="onViewSessionFormation(sessionFormation.id)"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="5">
+        Aucun enregistrement trouvé
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div style="text-align:left">
+      <button pButton type="button" icon="fa-plus" (click)="onShowFormDialog(0)"
+              label="Ajouter une session de formation"
+              class="ui-button-secondary"></button>
+    </div>
+  </ng-template>
+</p-table>
+<p-dialog header="Détails session de formation" [(visible)]="displayFormDialog" [modal]="true" [responsive]="true"
+          [width]="460" [height]="478">
+  <form [formGroup]="sessionFormationForm" (ngSubmit)="onSubmitForm()">
+    <div class="form-group">
+      <label for="dateDebut">Date de début <span class="obligatoire">*</span></label><br>
+      <p-calendar id="dateDebut" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true"
+                  yearRange="2018:2023" dateFormat="dd-mm-yy" [locale]="calendar_fr"
+                  formControlName="dateDebut"></p-calendar>
+    </div>
+    <div class="form-group">
+      <label for="dateFin">Date de fin <span class="obligatoire">*</span></label><br>
+      <p-calendar id="dateFin" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true"
+                  yearRange="2018:2023" dateFormat="dd-mm-yy" [locale]="calendar_fr"
+                  formControlName="dateFin"></p-calendar>
+    </div>
+    <div class="form-group">
+      <label for="nbrPlaces">Nombre de places</label><br>
+      <p-spinner id="nbrPlaces" formControlName="nbrPlaces" [min]="1" size="53"></p-spinner>
+    </div>
+    <div class="form-group">
+      <label for="lieu">Lieu</label>
+      <textarea id="lieu" class="form-control" formControlName="lieu" rows="5"></textarea>
+    </div>
+    <div style="text-align:right">
+      <button pButton type="submit" icon="fa-check" label="Soumettre" class="ui-button-secondary"
+              [disabled]="sessionFormationForm.invalid">
+      </button>
+      <button pButton type="reset" icon="fa-refresh" label="Effacer" class="ui-button-secondary">
+      </button>
+    </div>
+  </form>
+</p-dialog>
+<p-confirmDialog #cd>
+  <p-footer>
+    <button type="button" pButton icon="fa-close" label="Non" (click)="cd.reject()"
+            class="ui-button-secondary"></button>
+    <button type="button" pButton icon="fa-check" label="Oui" (click)="cd.accept()"
+            class="ui-button-danger"></button>
+  </p-footer>
+</p-confirmDialog>
